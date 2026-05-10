@@ -2,7 +2,7 @@ name: Stock Triple Growth Scanner
 
 on:
   schedule:
-    # 設定定時執行 (Cron 格式: 分 時 日 月 週)，此為台灣時間每週一早上 08:00
+    # 台灣時間每週一早上 08:00 (UTC 00:00)
     - cron: '0 0 * * 1'
   workflow_dispatch: # 允許手動點擊執行
 
@@ -12,10 +12,10 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4 # 建議也同步更新到 v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5 # 建議也同步更新到 v5
       with:
         python-version: '3.9'
 
@@ -28,7 +28,8 @@ jobs:
       run: python main.py
 
     - name: Upload Result
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4 # 關鍵修改：從 v3 改為 v4
       with:
         name: stock-report
         path: result.csv
+        retention-days: 5 # 可選：設定檔案保留天數，節省儲存空間
